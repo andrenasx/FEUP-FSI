@@ -129,7 +129,7 @@ total 192
 
 Bellow is our drawn schema, that helped us visualize the stack and addresses, so we know which values to change in *exploit.py*
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c34d50fc-def9-4c9d-8afb-b3dd6bafaa70/Untitled.png)
+![Untitled](images/LB5_stack.png)
 
 ## **CTF write-up/resolution**
 
