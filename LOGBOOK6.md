@@ -64,7 +64,7 @@ with open('badfile', 'wb') as f:
 
 In the output we see our input (AAAA), some address and values printed, and finally the bytes from our input (414141):
 
-```python
+```bash
 server-10.9.0.5  | Got a connection from 10.9.0.4
 server-10.9.0.5  | Starting format
 server-10.9.0.5  | The input buffer's address:    0xffffd550
@@ -84,7 +84,7 @@ From this task, we conclude that to access the variable we sent in the beginning
 
 In this task, the goal is to print the [secret message string](https://github.com/seed-labs/seed-labs/blob/master/category-software/Format_String/Labsetup/server-code/format.c#L23) to the console. The address of this string (`0x080b4008`) is printed from the server when a request is made, as seen below:
 
-```python
+```bash
 (...)
 server-10.9.0.5  | The secret message's address:  0x080b4008
 (...)
@@ -124,7 +124,7 @@ with open('badfile', 'wb') as f:
 
 As seen in the output, we successfully accessed the string address and we printed its value:
 
-```python
+```bash
 server-10.9.0.5  | Got a connection from 10.9.0.4
 server-10.9.0.5  | Starting format
 server-10.9.0.5  | The input buffer's address:    0xffffd3e0
@@ -180,7 +180,7 @@ with open('badfile', 'wb') as f:
 
 And by executing the python script, we obtain the following result, where we can observe that the value of the target variable changes to `0x00000004`, matching the number of bytes that the *target* address occupies:
 
-```python
+``` bash
 server-10.9.0.5  | Got a connection from 10.9.0.4
 server-10.9.0.5  | Starting format
 server-10.9.0.5  | The input buffer's address:    0xffffd0d0
@@ -234,7 +234,7 @@ The value 20475 was reached from the 20480 characters needed, less 4 bytes, whic
 
 Finally, when executing the python script, we obtain the following result, where we can observe that the value of the *target* variable change to `0x5000`:
 
-```python
+```bash
 server-10.9.0.5  | Got a connection from 10.9.0.4
 server-10.9.0.5  | Starting format
 server-10.9.0.5  | The input buffer's address:    0xffffd0d0
@@ -259,7 +259,7 @@ In this challenge, we are presented with an unsafe `printf` instruction: `printf
 
 First, we check what type of security measures the program has:
 
-```python
+```bash
 seed@9dcb163fa999:~$ checksec program
 [*] '/home/seed/program'
     Arch:     i386-32-little
@@ -275,7 +275,7 @@ The value of the flag is stored in a global variable, and with `printf` we can g
 
 To know a variable's address, we can use `gdb` or `objdump`:
 
-```python
+```bash
 seed@9dcb163fa999:~$ objdump -t program
 
 program:     file format elf32-i386
@@ -313,7 +313,7 @@ p.interactive()
 
 And by executing the python script, we can get the flag:
 
-```python
+```bash
 seed@4eb7a33b0273:~$ python3 exploit_example.py
 [+] Opening connection to ctf-fsi.fe.up.pt on port 4004: Done
 [*] Switching to interactive mode
@@ -358,7 +358,7 @@ n      The number of characters written so far is stored into the
 
 By using `%n`, we can save a value to a pointer of an integer, and to get the address of an integer from a program, we can use `objdump -t`.
 
-```json
+```bash
 seed@c92700e7a690:~$ objdump -t program
 
 program:     file format elf32-i386
@@ -400,7 +400,7 @@ p.interactive()
 
 And we can run the script:
 
-```python
+```bash
 seed@c92700e7a690:~$ python3 exploit_example.py
 [+] Opening connection to ctf-fsi.fe.up.pt on port 4005: Done
 [*] Switching to interactive mode
