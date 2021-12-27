@@ -21,7 +21,7 @@ Now we have access to the database and can run queries in it. From what is asked
 
 The query we need to run is `SELECT * FROM credential WHERE Name="Alice";` and we get the following results:
 
-![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5694c89-ee0a-48f6-896c-1d4a498be991/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20211223%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211223T123614Z&X-Amz-Expires=86400&X-Amz-Signature=7fc5d37ab288ec1fba0d34b64733bf00ae3e91971de28632ba7ff94d5edfe426&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![Query Results 1](./images/query_results.png)
 
 ### Task 2.1
 
@@ -204,7 +204,7 @@ UPDATE credential SET nickname='$input_nickname',email='$input_email',address='g
 
 When saving the changes made, we have the following result:
 
-![Captura de ecrã 2021-12-21 231651.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/3a67b911-eaf8-4d39-8fd3-15ef28ca4b67/Captura_de_ecr_2021-12-21_231651.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20211223%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211223T123555Z&X-Amz-Expires=86400&X-Amz-Signature=d7441ce0b91cf2f49bc7efe381f865d6ed0661b6c9ecf0f8f2a84e5f22b63f41&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Captura%2520de%2520ecr%25C3%25A3%25202021-12-21%2520231651.png%22&x-id=GetObject)
+![Query Results 2](./images/query_results_2.png)
 
 ## Task 3.2
 
@@ -218,7 +218,7 @@ UPDATE credential SET nickname='boby', salary=1 where name='Boby'; -- ',email='$
 
 With the previous SQL code, we obtain the following result:
 
-![Captura de ecrã 2021-12-21 231918.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d331859f-1c72-4beb-a52c-a6d8803b9597/Captura_de_ecr_2021-12-21_231918.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20211223%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211223T123518Z&X-Amz-Expires=86400&X-Amz-Signature=2ed4d86b04246b949cce8c46c726222e0883e96b11344d0bd379dc92f06e157b&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Captura%2520de%2520ecr%25C3%25A3%25202021-12-21%2520231918.png%22&x-id=GetObject)
+![Query Results 3](./images/query_results_3.png)
 
 ## **CTF write-up/resolution**
 

@@ -64,7 +64,7 @@ with open('badfile', 'wb') as f:
 
 In the output we see our input (AAAA), some address and values printed, and finally the bytes from our input (414141):
 
-```bash
+```Rust
 server-10.9.0.5  | Got a connection from 10.9.0.4
 server-10.9.0.5  | Starting format
 server-10.9.0.5  | The input buffer's address:    0xffffd550
@@ -84,7 +84,7 @@ From this task, we conclude that to access the variable we sent in the beginning
 
 In this task, the goal is to print the [secret message string](https://github.com/seed-labs/seed-labs/blob/master/category-software/Format_String/Labsetup/server-code/format.c#L23) to the console. The address of this string (`0x080b4008`) is printed from the server when a request is made, as seen below:
 
-```bash
+```rust
 (...)
 server-10.9.0.5  | The secret message's address:  0x080b4008
 (...)
@@ -124,7 +124,7 @@ with open('badfile', 'wb') as f:
 
 As seen in the output, we successfully accessed the string address and we printed its value:
 
-```bash
+```rust
 server-10.9.0.5  | Got a connection from 10.9.0.4
 server-10.9.0.5  | Starting format
 server-10.9.0.5  | The input buffer's address:    0xffffd3e0
@@ -180,7 +180,7 @@ with open('badfile', 'wb') as f:
 
 And by executing the python script, we obtain the following result, where we can observe that the value of the target variable changes to `0x00000004`, matching the number of bytes that the *target* address occupies:
 
-``` bash
+```rust
 server-10.9.0.5  | Got a connection from 10.9.0.4
 server-10.9.0.5  | Starting format
 server-10.9.0.5  | The input buffer's address:    0xffffd0d0
@@ -234,7 +234,7 @@ The value 20475 was reached from the 20480 characters needed, less 4 bytes, whic
 
 Finally, when executing the python script, we obtain the following result, where we can observe that the value of the *target* variable change to `0x5000`:
 
-```bash
+```rust
 server-10.9.0.5  | Got a connection from 10.9.0.4
 server-10.9.0.5  | Starting format
 server-10.9.0.5  | The input buffer's address:    0xffffd0d0
@@ -323,7 +323,7 @@ Disqualified!
 [*] Got EOF while reading in interactive
 ```
 
-![ctf62_stack_1.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/7af66b41-da3c-4c7c-aa80-607d3eee439d/ctf62_stack_1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20211202%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211202T224022Z&X-Amz-Expires=86400&X-Amz-Signature=caed9b637c09006000096f8b4e7bdf6dc0a6f979bdc9ff7536e5385615968bce&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22ctf62_stack_1.png%22&x-id=GetObject)
+![ctf62_stack_1.png](./images/ctf62_stack_1.png)
 
 ### Challenge 2
 
@@ -414,4 +414,4 @@ $ cat flag.txt
 flag{228e12f057040402cc928958a4b823d8}
 ```
 
-![ctf62_stack.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/00554c04-4a5d-471e-936d-5b4314a44212/ctf62_stack.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20211202%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211202T223931Z&X-Amz-Expires=86400&X-Amz-Signature=ba94e9000b73c3ebeee84a197618b9c7ae4963837347401358e70efd79067e80&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22ctf62_stack.png%22&x-id=GetObject)
+![ctf62_stack.png](./images/ctf62_stack.png)
