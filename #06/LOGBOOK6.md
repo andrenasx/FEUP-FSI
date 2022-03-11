@@ -2,7 +2,7 @@
 
 ## **Lab Tasks**
 
-Analyzing the vulnerable program *format.c*, we can see a format-string vulnerability in the `printf(msg)` call in the inside *myprintf* function. It only passes the *char* msg* as an argument of the function and has no format string.
+Analyzing the vulnerable program _format.c_, we can see a format-string vulnerability in the `printf(msg)` call in the inside _myprintf_ function. It only passes the _char_ msg\* as an argument of the function and has no format string.
 
 Before starting exploring the vulnerability, we check what type of security measures the program has:
 
@@ -17,11 +17,11 @@ seed@VM:~/.../server-code$ checksec format-32
     RWX:      Has RWX segments
 ```
 
-Has we can see from the `checksec` output that the program has a *Canary* and *Non-Executable* enabled. But the *PIE* (Position Independent Executable) is not enabled, this means that we can know up-front how the virtual memory of the application is organized, and with this, we can get the addresses of some variables to take advantage of the printf vulnerability (CONTINUE)
+Has we can see from the `checksec` output that the program has a _Canary_ and _Non-Executable_ enabled. But the _PIE_ (Position Independent Executable) is not enabled, this means that we can know up-front how the virtual memory of the application is organized, and with this, we can get the addresses of some variables to take advantage of the printf vulnerability (CONTINUE)
 
 ### Task 1
 
-In this task, the goal is to provide an input that will crash the program due to the printf vulnerability. This task was quite simple, we just needed to provide "*%s"* as the input to the server and the program crashed successfully. That happened because the `printf()` call with *%s* requires the argument to be a pointer to an array of char, but in this call, no arguments are provided so it will try to print the first element in the stack. Since the first element in the stack is not a string, the program will crash immediately.
+In this task, the goal is to provide an input that will crash the program due to the printf vulnerability. This task was quite simple, we just needed to provide "_%s"_ as the input to the server and the program crashed successfully. That happened because the `printf()` call with _%s_ requires the argument to be a pointer to an array of char, but in this call, no arguments are provided so it will try to print the first element in the stack. Since the first element in the stack is not a string, the program will crash immediately.
 
 ```bash
 seed@VM:~$ echo %s | nc 10.9.0.5 9090
@@ -90,9 +90,9 @@ server-10.9.0.5  | The secret message's address:  0x080b4008
 (...)
 ```
 
-In the provided python script we change the *number* variable to the desired address (`0x080b4008`), and since the program has a little-endian architecture we must store its bytes in the reverse order, which is easily done with the `byteorder='little'` argument in the `.to_bytes()` function.
+In the provided python script we change the _number_ variable to the desired address (`0x080b4008`), and since the program has a little-endian architecture we must store its bytes in the reverse order, which is easily done with the `byteorder='little'` argument in the `.to_bytes()` function.
 
-In the previous task we also discovered that the inputs go to the 64th position in the stack, so instead of adding 64 "%x", we use the line  `s = "%64$s"` to go directly there, so that the `printf()` call reads the given secret message's address.
+In the previous task we also discovered that the inputs go to the 64th position in the stack, so instead of adding 64 "%x", we use the line `s = "%64$s"` to go directly there, so that the `printf()` call reads the given secret message's address.
 
 ```python
 #!/usr/bin/python3
@@ -142,13 +142,13 @@ server-10.9.0.5  | (^_^)(^_^)  Returned properly (^_^)(^_^)
 
 ### Task 3.A
 
-In this task, it is asked to change the value of the *target* variable, defined as a global variable in the program. For this purpose, we can take advantage of the `%n` format specifier, which writes to a variable from the arguments a value equal to the number of characters that have been printed by `printf()` before the occurrence of `%n`. 
+In this task, it is asked to change the value of the _target_ variable, defined as a global variable in the program. For this purpose, we can take advantage of the `%n` format specifier, which writes to a variable from the arguments a value equal to the number of characters that have been printed by `printf()` before the occurrence of `%n`.
 
-To write something to the address of the *target* variable, it is necessary to find its position on the stack, which was accomplished in the **Task 2**, and we verify that by placing an address at the beginning of the format string we can access its address at the stack in the position 64.
+To write something to the address of the _target_ variable, it is necessary to find its position on the stack, which was accomplished in the **Task 2**, and we verify that by placing an address at the beginning of the format string we can access its address at the stack in the position 64.
 
-Finally, we just need to specify in the format string the position where `%n` will write to. To do that, we can use the `%_$n` at the beginning of the format specifier, where `_` indicates the position of the parameter to format in the parameters list. Since there is no parameters list, we will indicate the position that the *target* variable occupies in the stack, by sending `%64$n` as the format string.
+Finally, we just need to specify in the format string the position where `%n` will write to. To do that, we can use the `%_$n` at the beginning of the format specifier, where `_` indicates the position of the parameter to format in the parameters list. Since there is no parameters list, we will indicate the position that the _target_ variable occupies in the stack, by sending `%64$n` as the format string.
 
-All we needed to do was change the python script to place the address of the *target* variable at the beginning of the format string, plus the format specifier `%64$n`:
+All we needed to do was change the python script to place the address of the _target_ variable at the beginning of the format string, plus the format specifier `%64$n`:
 
 ```python
 #!/usr/bin/python3
@@ -178,7 +178,7 @@ with open('badfile', 'wb') as f:
   f.write(content)
 ```
 
-And by executing the python script, we obtain the following result, where we can observe that the value of the target variable changes to `0x00000004`, matching the number of bytes that the *target* address occupies:
+And by executing the python script, we obtain the following result, where we can observe that the value of the target variable changes to `0x00000004`, matching the number of bytes that the _target_ address occupies:
 
 ```rust
 server-10.9.0.5  | Got a connection from 10.9.0.4
@@ -196,11 +196,11 @@ server-10.9.0.5  | (^_^)(^_^)  Returned properly (^_^)(^_^)
 
 ### Task 3.B
 
-In this task, instead of changing the content of the *target* variable to an arbitrary value, we want to change it to a specific value `0x5000`. To do this, we followed the same logic we used in **Task 3.A** by taking advantage of the `%n` format specifier.
+In this task, instead of changing the content of the _target_ variable to an arbitrary value, we want to change it to a specific value `0x5000`. To do this, we followed the same logic we used in **Task 3.A** by taking advantage of the `%n` format specifier.
 
-We know that the integer value of `0x5000` is 20480. For the content of the *target* variable to be changed to `0x5000` we have to fill the format string with 20480 characters up to the `%n` format specifier. This is where we face a problem: the buffer size only allocates 1500 bytes. So what we have to do is to include in the format string the specifier `%x` with a width of 20475 characters, in order to specify the number of characters that are written to represent in hexadecimal a given value: `%20475$x`.
+We know that the integer value of `0x5000` is 20480. For the content of the _target_ variable to be changed to `0x5000` we have to fill the format string with 20480 characters up to the `%n` format specifier. This is where we face a problem: the buffer size only allocates 1500 bytes. So what we have to do is to include in the format string the specifier `%x` with a width of 20475 characters, in order to specify the number of characters that are written to represent in hexadecimal a given value: `%20475$x`.
 
-We needed to change the python script to place the address of the *target* variable at the beginning of the format string, plus the format specifier `%20475x\n%64$n`:
+We needed to change the python script to place the address of the _target_ variable at the beginning of the format string, plus the format specifier `%20475x\n%64$n`:
 
 ```python
 #!/usr/bin/python3
@@ -232,7 +232,7 @@ with open('badfile', 'wb') as f:
 
 The value 20475 was reached from the 20480 characters needed, less 4 bytes, which represent the size occupied by the address at the beginning of the format string, minus 1 byte from the \n, for the line with the new value to be at the bottom.
 
-Finally, when executing the python script, we obtain the following result, where we can observe that the value of the *target* variable change to `0x5000`:
+Finally, when executing the python script, we obtain the following result, where we can observe that the value of the _target_ variable change to `0x5000`:
 
 ```rust
 server-10.9.0.5  | Got a connection from 10.9.0.4
@@ -269,7 +269,7 @@ seed@9dcb163fa999:~$ checksec program
     PIE:      No PIE (0x8048000)
 ```
 
-With a Canary found and *Non-Executable* enabled, trying a buffer overflow, like the previous challenges, may not be an option. But the PIE - *Position Independent Executable* is not enabled, this means that we can know up-front how the virtual memory of the application is organized, and with this, we can get the addresses of some variables that might be important to get the flag.
+With a Canary found and _Non-Executable_ enabled, trying a buffer overflow, like the previous challenges, may not be an option. But the PIE - _Position Independent Executable_ is not enabled, this means that we can know up-front how the virtual memory of the application is organized, and with this, we can get the addresses of some variables that might be important to get the flag.
 
 The value of the flag is stored in a global variable, and with `printf` we can get the value of a variable if we know its address.
 
@@ -296,10 +296,8 @@ Here we can see that the flag variable is in the address `0x0804c060`
 With the address of the flag, we want to print the string pointed by that address, for that, we will need to use `%s` in the payload (printf manpage):
 
 > %s
-> 
 
 > The argument shall be a pointer to an array of **char**. Bytes from the array shall be written up to (but not including) any terminating null byte. If the precision is specified, no more than that many bytes shall be written. If the precision is not specified or is greater than the size of the array, the application shall ensure that the array contains a null byte.
-> 
 
 So the payload to send will be `<address>%s` . The last thing to note is that we cannot sent `\x08\x04\xc0\x60%s` because the program was compiled in little-endian, so we need to send the address in the reverse order:
 
@@ -323,7 +321,7 @@ Disqualified!
 [*] Got EOF while reading in interactive
 ```
 
-![ctf62_stack_1.png](./images/ctf62_stack_1.png)
+![ctf62_stack_1.png](../images/ctf62_stack_1.png)
 
 ### Challenge 2
 
@@ -414,4 +412,4 @@ $ cat flag.txt
 flag{228e12f057040402cc928958a4b823d8}
 ```
 
-![ctf62_stack.png](./images/ctf62_stack.png)
+![ctf62_stack.png](../images/ctf62_stack.png)

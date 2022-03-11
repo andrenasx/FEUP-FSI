@@ -63,11 +63,11 @@ OLDPWD=/home/seed/shellcode
 _=/bin/env
 ```
 
-Both 32-bit and 64-bit binaries have the same output, since they both execute `execve()` call with "*/bin//sh"* as the first argument, and we can see no environment variables are passed in that call, since the third argument is "*0"*.
+Both 32-bit and 64-bit binaries have the same output, since they both execute `execve()` call with "_/bin//sh"_ as the first argument, and we can see no environment variables are passed in that call, since the third argument is "_0"_.
 
 ### Task 2
 
-This task requeires us to analize the code, which has a buffer overflow vulnerability, and to prepare the compilation for Task 3. The goal is to get acess to the root shell, exploiting that vulnerability, and to do so first we need to turn off the StackGuard and the non-executable stack protections, and give the programn the required permissions, as described in the highlighted *Compilation* section.
+This task requeires us to analize the code, which has a buffer overflow vulnerability, and to prepare the compilation for Task 3. The goal is to get acess to the root shell, exploiting that vulnerability, and to do so first we need to turn off the StackGuard and the non-executable stack protections, and give the programn the required permissions, as described in the highlighted _Compilation_ section.
 
 ### Task 3
 
@@ -92,22 +92,22 @@ $2 = (char (*)[100]) 0xffffcadc
 gdb-peda$ quit
 ```
 
-The *Base Pointer* is at "0xffffcb48" and the *buffer’s starting position* is at "0xffffcadc". 
-Knowing these two values, the shellcode size, and the size written to the buffer, we know that the shellcode must be placed 517 positions from the *buffer’s starting position* (buffer has 517 size) minus the number of positions the shellcode occupies.
+The _Base Pointer_ is at "0xffffcb48" and the _buffer’s starting position_ is at "0xffffcadc".
+Knowing these two values, the shellcode size, and the size written to the buffer, we know that the shellcode must be placed 517 positions from the _buffer’s starting position_ (buffer has 517 size) minus the number of positions the shellcode occupies.
 
 ```jsx
-start = 517 - len(shellcode)
-ret    = 0xffffcadc + start
-offset = (0xffffcb48 - 0xffffcadc) + 4
+start = 517 - len(shellcode);
+ret = 0xffffcadc + start;
+offset = 0xffffcb48 - 0xffffcadc + 4;
 ```
 
-We can cause a buffer overflow to override the return address, located above the *Base Pointer*, so the offset value should be the difference between the *buffer’s* and the *Base Pointer's* address, plus the *Base Pointer* size. With this vulnerability we can execute a shell with root privileges and execute any code:
+We can cause a buffer overflow to override the return address, located above the _Base Pointer_, so the offset value should be the difference between the _buffer’s_ and the _Base Pointer's_ address, plus the _Base Pointer_ size. With this vulnerability we can execute a shell with root privileges and execute any code:
 
 ```bash
-[11/21/21]seed@VM:~/.../tarefa$ python3 exploit.py 
+[11/21/21]seed@VM:~/.../tarefa$ python3 exploit.py
 [11/21/21]seed@VM:~/.../tarefa$ ./stack-L1
 Input size: 517
-# ls -l                                              
+# ls -l
 total 192
 -rwxrwxrwx 1 seed seed   965 Nov 10 04:09 Makefile
 -rw-rw-r-- 1 seed seed   517 Nov 21 09:17 badfile
@@ -127,9 +127,9 @@ total 192
 # exit
 ```
 
-Bellow is our drawn schema, that helped us visualize the stack and addresses, so we know which values to change in *exploit.py*
+Bellow is our drawn schema, that helped us visualize the stack and addresses, so we know which values to change in _exploit.py_
 
-![Untitled](images/LB5_stack.png)
+![Untitled](../images/LB5_stack.png)
 
 ## **CTF write-up/resolution**
 
@@ -149,11 +149,11 @@ $ checksec program
 
 After looking at the code we can answer the questions in moodle:
 
-- The program reads the "*mem.txt" file*
-- We can control which file is open if we change the "*meme_file*" variable
-- A buffer overflow vulnerability is present. We can cause an overflow of the "*buffer*" variable in the `scanf` call, since the function can read up to 28 characters and *buffer* only has size of 20.
+- The program reads the "_mem.txt" file_
+- We can control which file is open if we change the "_meme_file_" variable
+- A buffer overflow vulnerability is present. We can cause an overflow of the "_buffer_" variable in the `scanf` call, since the function can read up to 28 characters and _buffer_ only has size of 20.
 
-Therefore, when the input is requested to the user though the `scanf` call, we can write, for example,  "aaaaaaaaaaaaaaaaaaaaflag.txt". This way we fill the *buffer* with the 20 "a"s characters and cause an overflow of "flag.txt" to *meme_file* variable. Afterwards, in the `fopen` call, the file opened will be "flag.txt" instead of "mem.txt", in the `fgets` call the first 20 characters will be read from that file, and the flag is shown in the console.
+Therefore, when the input is requested to the user though the `scanf` call, we can write, for example, "aaaaaaaaaaaaaaaaaaaaflag.txt". This way we fill the _buffer_ with the 20 "a"s characters and cause an overflow of "flag.txt" to _meme_file_ variable. Afterwards, in the `fopen` call, the file opened will be "flag.txt" instead of "mem.txt", in the `fgets` call the first 20 characters will be read from that file, and the flag is shown in the console.
 
 ```bash
 [11/17/21]seed@VM:~/.../Semana5-Desafio1$ nc ctf-fsi.fe.up.pt 4003
@@ -180,10 +180,10 @@ And we have the following if condition, blocking us from seeing the contents of 
 if(*(long*)val == 0xfefc2122)
 ```
 
-But it doesn't mitigate the problem completely. To read the flag in the *flag.txt* file we need to perform a similar buffer overflow to the previous challenge, but now, additionally, we need to make sure that the value in `val` is equal to `0xfefc2122` bytes.With the provided python script, we can change the input to be sent to the following:
+But it doesn't mitigate the problem completely. To read the flag in the _flag.txt_ file we need to perform a similar buffer overflow to the previous challenge, but now, additionally, we need to make sure that the value in `val` is equal to `0xfefc2122` bytes.With the provided python script, we can change the input to be sent to the following:
 
 ```python
 r.sendline(b"a"*20 + b"\x22\x21\xfc\xfe" + b"flag.txt")
 ```
 
-This way, we send 20 characters to fill the buffer, set the correct value of `val` to match the required *if condition*, and finally change the value of `meme_file`. Once again we are successful and get the flag inside *flag.txt* file. Important to note that we send the "0xfefc2122" in bytes in the reverse order, due to that fact that the architeture is *little endian.* Little-endianness refers to the byte ordering where the least significant byte is stored first. So in this case, if we have the 4-byte value of "0xfefc2122" we would store it in memory, in the *val* buffer, in the following way: "22 21 fc fe" (\x22\x21\xfc\xfe).
+This way, we send 20 characters to fill the buffer, set the correct value of `val` to match the required _if condition_, and finally change the value of `meme_file`. Once again we are successful and get the flag inside _flag.txt_ file. Important to note that we send the "0xfefc2122" in bytes in the reverse order, due to that fact that the architeture is _little endian._ Little-endianness refers to the byte ordering where the least significant byte is stored first. So in this case, if we have the 4-byte value of "0xfefc2122" we would store it in memory, in the _val_ buffer, in the following way: "22 21 fc fe" (\x22\x21\xfc\xfe).

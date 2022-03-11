@@ -2,7 +2,7 @@
 
 ## Identificação
 
-- CVE-2014-4114 (aka "Sandworm"). Permite que attackers executem código arbitrário no contexto do utilizador atual. Se o usuário atual estiver conectado com direitos de *admin*, um invasor poderá instalar programas; visualizar, alterar ou excluir dados; ou criar novas contas com direitos totais.
+- CVE-2014-4114 (aka "Sandworm"). Permite que attackers executem código arbitrário no contexto do utilizador atual. Se o usuário atual estiver conectado com direitos de _admin_, um invasor poderá instalar programas; visualizar, alterar ou excluir dados; ou criar novas contas com direitos totais.
 - O ataque é feito por meio de um objeto OLE criado em um documento do Office. Um objeto OLE (Object Linking and Embedding) é um componente da Microsoft que permite ligar dinamicamente arquivos e aplicativos.
 - O sistema operativo afetado foi a Microsoft, entre as seguintes versões: Microsoft Windows Vista SP2, Windows Server 2008 SP2 e R2 SP1, Windows 7 SP1, Windows 8, Windows 8.1, Windows Server 2012 Gold e R2, e Windows RT Gold e 8.1.
 - O CVE presente é do tipo de CWE-20: Improper Input Validation, isto é, um componente não valida ou valida incorretamente inputs, que pode afetar o fluxo de um programa.
@@ -22,8 +22,8 @@
 
 ## Ataques
 
-- *Sandworm attack,* uma *zero-day vulnerability,* explorado desde Junho até Outubro de 2014
-- Acredita-se que foi usado em *cyber attacks*, por um grupo Russo de espionagem cibernética, contra a NATO, União Europeia, Telecomunicações e Setores de Energia.
+- _Sandworm attack,_ uma _zero-day vulnerability,_ explorado desde Junho até Outubro de 2014
+- Acredita-se que foi usado em _cyber attacks_, por um grupo Russo de espionagem cibernética, contra a NATO, União Europeia, Telecomunicações e Setores de Energia.
 
 # Sources:
 

